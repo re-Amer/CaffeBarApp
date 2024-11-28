@@ -26,4 +26,8 @@ public class ExpenseService {
     public List<Expense> getExpensesByInventoryId(int inventoryId) {
         return expenseRepository.findByInventoryId(inventoryId); // Assuming a method like this exists
     }
+    public void deleteExpense(int id) {
+        expenseRepository.deleteById(id);
+    }
+
 }

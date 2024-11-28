@@ -76,7 +76,7 @@ public class InventoryController {
         if (inventoryOptional.isPresent()) {
             Inventory inventory = inventoryOptional.get();
             expense.setInventory(inventory); // Associate inventory
-            Expense newExpense = expenseService.createExpense(expense);
+            Expense newExpense = expenseService.createExpense(expense, inventory);
             return ResponseEntity.ok(newExpense);
         }
         return ResponseEntity.notFound().build();

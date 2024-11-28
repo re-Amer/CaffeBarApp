@@ -48,4 +48,5 @@ public class ExpenseController {
     public void deleteExpense(@PathVariable int id) {
         expenseService.deleteExpense(id);
     }
+
 }
