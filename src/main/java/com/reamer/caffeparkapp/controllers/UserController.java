@@ -1,5 +1,6 @@
 package com.reamer.caffeparkapp.controllers;
 
+import com.reamer.caffeparkapp.dto.UserDto;
 import com.reamer.caffeparkapp.entities.User;
 import com.reamer.caffeparkapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +22,13 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getAllUsers() {
+    public List<UserDto> getAllUsers() {
         return userService.getAllUsers();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable int id) {
-        Optional<User> user = userService.getUserById(id);
+    public ResponseEntity<UserDto> getUserById(@PathVariable int id) {
+        Optional<UserDto> user = userService.getUserById(id);
         return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -37,9 +38,14 @@ public class UserController {
         return ResponseEntity.ok(newUser);
     }
 
+    @GetMapping("/test")
+    public String test() {
+        return "Server is working!";
+    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable int id, @RequestBody User userDetails) {
-        User updatedUser = userService.updateUser(id, userDetails);
+    public ResponseEntity<UserDto> updateUser(@PathVariable int id, @RequestBody User userDetails) {
+        UserDto updatedUser = userService.updateUser(id, userDetails);
         if (updatedUser != null) {
             return ResponseEntity.ok(updatedUser);
         } else {

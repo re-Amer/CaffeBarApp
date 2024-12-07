@@ -41,4 +41,10 @@ public class SalesService {
     public void deleteSales(int id) {
         salesRepository.deleteById(id);
     }
+
+    // Method to get sold quantity for a specific inventory item by its ID
+    public int getSoldQuantityForInventory(int inventoryId) {
+        // Assuming there's a method in the SalesRepository that counts sales for an inventory item
+        return salesRepository.countSoldItemsByInventoryId(inventoryId);  // Adjust if necessary
+    }
 }

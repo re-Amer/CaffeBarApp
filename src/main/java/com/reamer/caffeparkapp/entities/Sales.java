@@ -1,6 +1,5 @@
 package com.reamer.caffeparkapp.entities;
 
-
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -13,17 +12,17 @@ public class Sales {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "drink_id", nullable = false)
+    @JoinColumn(name = "drink_id", nullable = false)  // Ensure the column name matches your DB schema
     private Drink drink;
 
     @Column(nullable = false)
     private int quantitySold;
 
     @Column(nullable = false)
-    private double totalPrice; // Total price for the sold quantity
+    private double totalPrice;
 
     @Column(nullable = false)
-    private String date; // Date of sale
+    private String date;
 
     // Default constructor for JPA
     public Sales() {}

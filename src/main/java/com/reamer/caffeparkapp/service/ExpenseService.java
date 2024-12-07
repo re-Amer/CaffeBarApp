@@ -20,14 +20,18 @@ public class ExpenseService {
 
     public Expense createExpense(Expense expense, Inventory inventory) {
         expense.setInventory(inventory); // Link the expense to the inventory
-        return expenseRepository.save(expense); // Save the expense
+        return expenseRepository.save(expense); // Save and return the expense
     }
 
     public List<Expense> getExpensesByInventoryId(int inventoryId) {
-        return expenseRepository.findByInventoryId(inventoryId); // Assuming a method like this exists
-    }
-    public void deleteExpense(int id) {
-        expenseRepository.deleteById(id);
+        return expenseRepository.findByInventoryId(inventoryId); // Fetch expenses linked to an inventory
     }
 
+    public boolean deleteExpense(int id) {
+        if (expenseRepository.existsById(id)) {
+            expenseRepository.deleteById(id);
+            return true; // Successful deletion
+        }
+        return false; // Expense not found
+    }
 }

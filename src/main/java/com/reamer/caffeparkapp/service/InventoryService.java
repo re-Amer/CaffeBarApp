@@ -14,11 +14,13 @@ public class InventoryService {
 
     private final InventoryRepository inventoryRepository;
     private final ExpenseService expenseService;
+    private final SalesService salesService;
 
     @Autowired
-    public InventoryService(InventoryRepository inventoryRepository, ExpenseService expenseService) {
+    public InventoryService(InventoryRepository inventoryRepository, ExpenseService expenseService, SalesService salesService) {
         this.inventoryRepository = inventoryRepository;
         this.expenseService = expenseService;
+        this.salesService = salesService;
     }
 
     public List<Inventory> getAllInventory() {
@@ -50,17 +52,21 @@ public class InventoryService {
         Inventory inventory = getInventoryById(inventoryId)
                 .orElseThrow(() -> new IllegalArgumentException("Inventory not found for ID: " + inventoryId));
 
+        // Get all expenses that are subtractable
         double totalExpenses = expenseService.getExpensesByInventoryId(inventoryId)
                 .stream()
                 .filter(Expense::isSubtractable)
                 .mapToDouble(Expense::getAmount)
                 .sum();
 
+        // Get total sales
         double totalSales = calculateTotalSales(inventory);
 
+        // Calculate profit
         return totalSales - totalExpenses + kitchenProfit;
     }
 
+    // Calculate profit from expenses (subtract only subtractable expenses)
     private double calculateProfit(Inventory inventory) {
         double totalProfit = 0;
 
@@ -72,9 +78,11 @@ public class InventoryService {
         return totalProfit;
     }
 
+    // Calculate total sales from actual sold quantity
     private double calculateTotalSales(Inventory inventory) {
-        int soldQuantity = 10; // Placeholder: replace with real logic
-        double pricePerDrink = inventory.getDrink().getPrice();
-        return soldQuantity * pricePerDrink;
+        // Get the actual sold quantity from the sales data
+        int soldQuantity = salesService.getSoldQuantityForInventory(inventory.getId()); // Calls SalesService
+        double pricePerItem = inventory.getPrice(); // Get price from inventory
+        return soldQuantity * pricePerItem;
     }
 }

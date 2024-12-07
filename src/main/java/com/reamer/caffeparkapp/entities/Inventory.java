@@ -10,6 +10,7 @@ import java.util.List;
 @Table(name = "inventory")
 @Data
 public class Inventory {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -32,4 +33,14 @@ public class Inventory {
 
     // Default constructor for JPA
     public Inventory() {}
+
+    // Add getter and setter for price from associated drink (if not using Lombok for all getters)
+    public double getPrice() {
+        if (this.drink != null) {
+            return this.drink.getPrice();
+        }
+        return 0; // Return 0 if no associated drink is found
+    }
+
+    // Other getters and setters will be handled by Lombok (@Data) automatically
 }

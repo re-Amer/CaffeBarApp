@@ -26,34 +26,22 @@ public class DrinkController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Drink> getDrinkById(@PathVariable int id) {
-        Optional<Drink> drink = drinkService.getDrinkById(id);
-        return drink.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public Optional<Drink> getDrinkById(@PathVariable int id) {
+        return drinkService.getDrinkById(id);
     }
 
     @PostMapping
-    public ResponseEntity<Drink> createDrink(@RequestBody Drink drink) {
-        Drink newDrink = drinkService.createDrink(drink);
-        return ResponseEntity.ok(newDrink);
+    public Drink createDrink(@RequestBody Drink drink) {
+        return drinkService.createDrink(drink);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Drink> updateDrink(@PathVariable int id, @RequestBody Drink drinkDetails) {
-        Drink updatedDrink = drinkService.updateDrink(id, drinkDetails);
-        if (updatedDrink != null) {
-            return ResponseEntity.ok(updatedDrink);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public Drink updateDrink(@PathVariable int id, @RequestBody Drink drinkDetails) {
+        return drinkService.updateDrink(id, drinkDetails);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteDrink(@PathVariable int id) {
-        if (drinkService.getDrinkById(id).isPresent()) {
-            drinkService.deleteDrink(id);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public void deleteDrink(@PathVariable int id) {
+        drinkService.deleteDrink(id);
     }
 }

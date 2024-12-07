@@ -20,6 +20,10 @@ public class Drink {
     @Column(nullable = false)
     private int stock;
 
+    @ManyToOne
+    @JoinColumn(name = "inventory_id", nullable = false) // Ensure this maps correctly
+    private Inventory inventory;
+
     // Default constructor for JPA
     public Drink() {}
 }

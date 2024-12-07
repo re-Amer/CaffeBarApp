@@ -3,7 +3,9 @@ package com.reamer.caffeparkapp.repository;
 import com.reamer.caffeparkapp.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 public interface UserRepository extends JpaRepository<User, Integer> {
-    // Custom queries can be added here if needed, for example:
-    User findByUsername(String username);
+    Optional<User> findByUsername(String username);
+    boolean existsByUsername(String username);
 }
