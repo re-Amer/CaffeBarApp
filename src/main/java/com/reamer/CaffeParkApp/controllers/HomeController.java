@@ -1,4 +1,4 @@
-package com.reamer.caffeparkapp.controllers;
+package com.reamer.CaffeParkApp.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

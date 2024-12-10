@@ -1,9 +1,8 @@
-package com.reamer.caffeparkapp.controllers;
+package com.reamer.CaffeParkApp.controllers;
 
-import com.reamer.caffeparkapp.entities.Drink;
-import com.reamer.caffeparkapp.service.DrinkService;
+import com.reamer.CaffeParkApp.entities.Drink;
+import com.reamer.CaffeParkApp.service.DrinkService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

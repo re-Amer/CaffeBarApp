@@ -1,6 +1,6 @@
-package com.reamer.caffeparkapp.repository;
+package com.reamer.CaffeParkApp.repository;
 
-import com.reamer.caffeparkapp.entities.User;
+import com.reamer.CaffeParkApp.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

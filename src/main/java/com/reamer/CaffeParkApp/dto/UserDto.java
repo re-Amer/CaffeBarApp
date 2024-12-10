@@ -1,6 +1,6 @@
-package com.reamer.caffeparkapp.dto;
+package com.reamer.CaffeParkApp.dto;
 
-import com.reamer.caffeparkapp.entities.User;
+import com.reamer.CaffeParkApp.entities.User;
 import lombok.Data;
 
 @Data

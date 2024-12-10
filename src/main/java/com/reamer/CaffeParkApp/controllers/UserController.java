@@ -1,8 +1,8 @@
-package com.reamer.caffeparkapp.controllers;
+package com.reamer.CaffeParkApp.controllers;
 
-import com.reamer.caffeparkapp.dto.UserDto;
-import com.reamer.caffeparkapp.entities.User;
-import com.reamer.caffeparkapp.service.UserService;
+import com.reamer.CaffeParkApp.dto.UserDto;
+import com.reamer.CaffeParkApp.entities.User;
+import com.reamer.CaffeParkApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

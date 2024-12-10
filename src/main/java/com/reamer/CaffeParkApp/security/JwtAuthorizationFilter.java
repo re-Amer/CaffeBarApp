@@ -1,4 +1,4 @@
-package com.reamer.caffeparkapp.security;
+package com.reamer.CaffeParkApp.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -7,67 +7,72 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.crypto.SecretKey;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
+@Component // Add @Component back
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
+
+    @Value("${jwt.secret}")
+    private String jwtSecret;
+
+    private final UserDetailsService userDetailsService;
+
+    public JwtAuthorizationFilter(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-        String header = request.getHeader(JwtProperties.HEADER_STRING);
+        String header = request.getHeader("Authorization");
 
-        if (header == null || !header.startsWith(JwtProperties.TOKEN_PREFIX)) {
+        if (header == null || !header.startsWith("Bearer ")) {
             chain.doFilter(request, response);
             return;
         }
 
+        String token = header.substring(7);
         try {
-            UsernamePasswordAuthenticationToken authentication = getAuthentication(request);
-            if (authentication != null) {
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
-        } catch (Exception ex) {
-            logger.error("JWT parsing failed: " + ex.getMessage());
-            // Optionally handle failure if you want response changes or warnings
-        }
-
-        chain.doFilter(request, response);
-    }
-
-    private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
-        String token = request.getHeader(JwtProperties.HEADER_STRING)
-                .replace(JwtProperties.TOKEN_PREFIX, "");
-
-        if (token != null) {
+            SecretKey key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
             Claims claims = Jwts.parserBuilder()
-                    .setSigningKey(Keys.hmacShaKeyFor(JwtProperties.SECRET.getBytes()))
+                    .setSigningKey(key)
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
 
             String username = claims.getSubject();
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-            @SuppressWarnings("unchecked")
-            List<String> authorities = (List<String>) claims.get("authorities");
+            if (userDetails != null && username.equals(userDetails.getUsername())) {
+                @SuppressWarnings("unchecked")
+                List<String> authorityStrings = (List<String>) claims.get("authorities");
+                List<SimpleGrantedAuthority> authorities = authorityStrings.stream()
+                        .map(SimpleGrantedAuthority::new)
+                        .collect(Collectors.toList());
 
-            if (username != null) {
-                return new UsernamePasswordAuthenticationToken(
-                        username,
-                        null,
-                        authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList())
-                );
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                        userDetails, null, authorities);
+
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             }
+        } catch (Exception ex) {
+            SecurityContextHolder.clearContext(); // Clear context on failure
         }
 
-        return null; // If no username parsed from the token.
+        chain.doFilter(request, response);
     }
 }

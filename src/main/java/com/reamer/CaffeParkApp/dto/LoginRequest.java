@@ -1,4 +1,4 @@
-package com.reamer.caffeparkapp.dto;
+package com.reamer.CaffeParkApp.dto;
 
 import lombok.Data;
 

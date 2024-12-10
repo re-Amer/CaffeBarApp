@@ -1,7 +1,7 @@
-package com.reamer.caffeparkapp.service;
+package com.reamer.CaffeParkApp.service;
 
-import com.reamer.caffeparkapp.entities.Stock;
-import com.reamer.caffeparkapp.repository.StockRepository;
+import com.reamer.CaffeParkApp.entities.Stock;
+import com.reamer.CaffeParkApp.repository.StockRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

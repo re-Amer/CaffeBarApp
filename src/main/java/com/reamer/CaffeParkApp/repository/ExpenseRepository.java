@@ -1,6 +1,6 @@
-package com.reamer.caffeparkapp.repository;
+package com.reamer.CaffeParkApp.repository;
 
-import com.reamer.caffeparkapp.entities.Expense;
+import com.reamer.CaffeParkApp.entities.Expense;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

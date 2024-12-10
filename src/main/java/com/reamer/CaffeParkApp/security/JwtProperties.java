@@ -1,4 +1,4 @@
-package com.reamer.caffeparkapp.security;
+package com.reamer.CaffeParkApp.security;
 
 public class JwtProperties {
     public static final String SECRET = "P`n4GQ@Kqx=<?Azv_^C8[>w;SUdNL/7]";

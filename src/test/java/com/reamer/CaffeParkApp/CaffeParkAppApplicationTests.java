@@ -1,4 +1,4 @@
-package com.reamer.caffeparkapp;
+package com.reamer.CaffeParkApp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

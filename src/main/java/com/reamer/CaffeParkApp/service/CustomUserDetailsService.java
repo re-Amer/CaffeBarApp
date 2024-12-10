@@ -1,7 +1,7 @@
-package com.reamer.caffeparkapp.service;
+package com.reamer.CaffeParkApp.service;
 
-import com.reamer.caffeparkapp.entities.User;
-import com.reamer.caffeparkapp.repository.UserRepository;
+import com.reamer.CaffeParkApp.entities.User;
+import com.reamer.CaffeParkApp.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,16 +19,13 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // Find the user by username from the repository
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        // Using the builder pattern to build UserDetails
         UserBuilder builder = org.springframework.security.core.userdetails.User.withUsername(user.getUsername());
-        builder.password(user.getPasswordHash()); // Setting the password
-        builder.roles(user.getRole().name()); // Assuming getRole() returns an Enum, convert it to a string role
+        builder.password(user.getPasswordHash()); // Use passwordHash
+        builder.roles(user.getRole().name());
 
         return builder.build();
     }
 }
-

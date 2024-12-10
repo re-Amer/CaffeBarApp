@@ -1,4 +1,4 @@
-package com.reamer.caffeparkapp.entities;
+package com.reamer.CaffeParkApp.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;

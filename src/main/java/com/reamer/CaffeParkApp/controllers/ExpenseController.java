@@ -1,9 +1,9 @@
-package com.reamer.caffeparkapp.controllers;
+package com.reamer.CaffeParkApp.controllers;
 
-import com.reamer.caffeparkapp.entities.Expense;
-import com.reamer.caffeparkapp.entities.Inventory;
-import com.reamer.caffeparkapp.service.ExpenseService;
-import com.reamer.caffeparkapp.service.InventoryService;
+import com.reamer.CaffeParkApp.entities.Expense;
+import com.reamer.CaffeParkApp.entities.Inventory;
+import com.reamer.CaffeParkApp.service.ExpenseService;
+import com.reamer.CaffeParkApp.service.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
